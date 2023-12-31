@@ -7,14 +7,19 @@ class Product {
 }
 
 class Shop {
+
   constructor(products=[]){
     this.products = products;
   }
+
   updateQuality() {
     for (var i = 0; i < this.products.length; i++) {
-      const isNotBrieOrConcertTickets = this.products[i].name != 'Aged Brie' && this.products[i].name != 'Backstage passes to a TAFKAL80ETC concert';
+      const isNotBrie = this.products[i].name != 'Aged Brie';
+      const isNotConcertTickets = this.products[i].name != 'Backstage passes to a TAFKAL80ETC concert';
+      const isNotBrieOrConcertTickets = isNotBrie && isNotConcertTickets;
+      
       if (isNotBrieOrConcertTickets) {
-        this.lowerQualityOfNonSulfurasProduct(i);
+        this.decrementQualityOfNonSulfurasProduct(i);
       } else {
         if (this.products[i].quality < 50) {
           this.incrementQuality(i);
@@ -33,7 +38,7 @@ class Shop {
         }
       }
       if (this.products[i].name != 'Sulfuras, Hand of Ragnaros') {
-        this.products[i].sellIn = this.products[i].sellIn - 1;
+        this.decrementQuality(i);
       }
       if (this.products[i].sellIn < 0) {
         if (this.products[i].name != 'Aged Brie') {
@@ -65,7 +70,7 @@ class Shop {
     this.products[i].quality = this.products[i].quality + 1;
   }
 
-  lowerQualityOfNonSulfurasProduct(i) {
+  decrementQualityOfNonSulfurasProduct(i) {
     if (this.products[i].quality > 0) {
       if (this.products[i].name != 'Sulfuras, Hand of Ragnaros') {
         this.products[i].quality = this.products[i].quality - 1;
